@@ -1,24 +1,22 @@
-const translations = {
+const messages = {
   en: {
-    home: "Home",
+    leaderboard: "Leaderboard",
+    products: "Products",
+    monetization: "Monetization",
     about: "About",
-    services: "Services",
     contact: "Contact",
-    blog: "Blog",
-    faq: "FAQ",
-    dark_mode: "Dark Mode",
+    admin: "Admin",
   },
   fr: {
-    home: "Accueil",
+    leaderboard: "Classement",
+    products: "Produits",
+    monetization: "Monétisation",
     about: "À propos",
-    services: "Services",
     contact: "Contact",
-    blog: "Blog",
-    faq: "FAQ",
-    dark_mode: "Mode Sombre",
+    admin: "Administrateur",
   },
 };
 
 export function t(lang, key) {
-  return translations[lang][key] || key;
+  return messages[lang][key] || key;
 }
