@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Sun, Moon, Globe } from "lucide-react";
 import Image from "next/image";
-
+import { motion, AnimatePresence } from "framer-motion";
 import { t } from "../styles/i18n";
 
 export default function Navbar() {
@@ -11,9 +11,9 @@ export default function Navbar() {
 
   useEffect(() => {
     if (darkMode) {
-      document.body.classList.add("dark");
+      document.documentElement.classList.add("dark");
     } else {
-      document.body.classList.remove("dark");
+      document.documentElement.classList.remove("dark");
     }
   }, [darkMode]);
 
@@ -28,7 +28,7 @@ export default function Navbar() {
       </div>
 
       {/* Menu Links */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-8">
         <button className="text-gray-800 dark:text-white">
           {t(language, "leaderboard")}
         </button>
@@ -48,17 +48,98 @@ export default function Navbar() {
           {t(language, "admin")}
         </button>
 
-        {/* Dark Mode Toggle */}
-        <button onClick={() => setDarkMode(!darkMode)}>
-          {darkMode ? <Sun size={24} color="yellow" /> : <Moon size={24} />}
+        {/* Dark Mode Toggle with Animation */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="relative w-10 h-10 flex items-center justify-center"
+        >
+          <AnimatePresence mode="wait">
+            {darkMode ? (
+              <motion.div
+                key="sun"
+                initial={{ rotate: 180, scale: 0.5, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                exit={{ rotate: -180, scale: 0.5, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Sun size={24} color="yellow" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="moon"
+                initial={{ rotate: -180, scale: 0.5, opacity: 0 }}
+                animate={{ rotate: 0, scale: 1, opacity: 1 }}
+                exit={{ rotate: 180, scale: 0.5, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Moon size={24} />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </button>
 
-        {/* Language Toggle */}
+        {/* Language Toggle with Animation */}
         <button
-          onClick={() => setLanguage(language === "en" ? "fr" : "en")}
-          className="text-gray-800 dark:text-white flex items-center"
+          onClick={() =>
+            setLanguage(
+              language === "en" ? "fr" : language === "fr" ? "ar" : "en"
+            )
+          }
+          className="flex items-center relative gap-2 text-gray-800 dark:text-white"
         >
-          <Globe size={24} className="mr-1" /> {language === "en" ? "FR" : "EN"}
+          <div className="relative w-6 h-5">
+            <AnimatePresence mode="wait">
+              {language === "en" ? (
+                <motion.div
+                  key="uk"
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 10, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute"
+                >
+                  <Image
+                    src="/flags/uk.png"
+                    alt="English"
+                    width={24}
+                    height={24}
+                  />
+                </motion.div>
+              ) : language === "ar" ? (
+                <motion.div
+                  key="ar"
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 10, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute"
+                >
+                  <Image
+                    src="/flags/sa.png"
+                    alt="English"
+                    width={24}
+                    height={24}
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="fr"
+                  initial={{ y: -10, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 10, opacity: 0 }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute"
+                >
+                  <Image
+                    src="/flags/fr.png"
+                    alt="French"
+                    width={24}
+                    height={24}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </button>
       </div>
     </nav>

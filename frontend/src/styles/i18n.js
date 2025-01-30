@@ -15,6 +15,14 @@ const messages = {
     contact: "Contact",
     admin: "Administrateur",
   },
+  ar: {
+    leaderboard: "لوحة الصدارة",
+    products: "المنتجات",
+    monetization: "تحقيق الدخل",
+    about: "حول",
+    contact: "اتصال",
+    admin: "المسؤول",
+  },
 };
 
 export function t(lang, key) {
